@@ -1,13 +1,65 @@
-import React from 'react';
+import React from "react";
+import ToDoList from "./components/TodoComponents/TodoList";
+import FormField from "./components/Form";
+
+const toDo = [];
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
+  constructor() {
+    super();
+    this.state = {
+      toDo: toDo
+    };
+  }
+  addItem = (event, item) => {
+    event.preventDefault();
+    const newItem = {
+      name: item,
+      id: Date.now(),
+      checked: false
+    };
+    this.setState({
+      toDo: [...this.state.toDo, newItem]
+    });
+  };
+
+  checkItem = id => {
+    this.setState({
+      toDo: this.state.toDo.map(a => {
+        if (id === a.id) {
+          return {
+            ...a,
+            checked: !a.checked
+          };
+        }
+        return a;
+      })
+    });
+  };
+
+  clearForm = event => {
+    event.preventDefault();
+    this.setState({
+      toDo: this.state.toDo.filter(item => !item.checked)
+    });
+  };
+
   render() {
     return (
-      <div>
-        <h2>Welcome to your Todo App!</h2>
+      <div className="app">
+        <div className="header">
+          <h1>To-Do List</h1>
+        </div>
+        <div className="form-body">
+          <FormField addItem={this.addItem} />
+
+          <ToDoList toDo={this.state.toDo} checkItem={this.checkItem} />
+          <div className="btn-con">
+            <button className="clear-btn" onClick={this.clearForm}>
+              CLEAR
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
