@@ -2,15 +2,25 @@ import React from "react";
 import ToDoList from "./components/TodoComponents/TodoList";
 import FormField from "./components/Form";
 
-const toDo = [];
-
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      toDo: toDo
+      toDo: localStorage.getItem("toDo")
+        ? JSON.parse(localStorage.getItem("toDo"))
+        : []
     };
   }
+
+  /*  componentDidMount = () => {
+    this.setState({
+      toDo: JSON.parse(localStorage.getItem("toDo"))
+    });
+  }; */
+  componentDidUpdate = () => {
+    localStorage.setItem("toDo", JSON.stringify(this.state.toDo));
+  };
+
   addItem = (event, item) => {
     event.preventDefault();
     const newItem = {
@@ -18,8 +28,14 @@ class App extends React.Component {
       id: Date.now(),
       checked: false
     };
+
     this.setState({
-      toDo: [...this.state.toDo, newItem]
+      toDo: /* localStorage.setItem(
+        "toDo",
+        JSON.stringify( */ [
+        ...this.state.toDo,
+        newItem
+      ]
     });
   };
 
