@@ -28,15 +28,16 @@ class App extends React.Component {
       id: Date.now(),
       checked: false
     };
-
-    this.setState({
-      toDo: /* localStorage.setItem(
+    newItem.name.trim() === ""
+      ? console.log("error")
+      : this.setState({
+          toDo: /* localStorage.setItem(
         "toDo",
         JSON.stringify( */ [
-        ...this.state.toDo,
-        newItem
-      ]
-    });
+            ...this.state.toDo,
+            newItem
+          ]
+        });
   };
 
   checkItem = id => {
